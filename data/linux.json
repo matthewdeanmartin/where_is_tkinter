@@ -1,6 +1,6 @@
 {
   "os": "linux",
-  "generated_at": "2026-05-24T19:46:17.458788+00:00",
+  "generated_at": "2026-05-24T21:24:14.017934+00:00",
   "results": {
     "3.8": {
       "python_version": "3.8.20 (default, Oct  2 2024, 16:34:12) \n[Clang 18.1.8 ]",
@@ -9,7 +9,7 @@
         8,
         20
       ],
-      "executable": "/home/mmartin/.local/share/uv/python/cpython-3.8.20-linux-x86_64-gnu/bin/python3.8",
+      "executable": "/home/mmartin/.local/share/uv/python/cpython-3.8-linux-x86_64-gnu/bin/python3.8",
       "platform": "Linux",
       "platform_release": "6.12.0-124.56.5.el10_1.x86_64",
       "machine": "x86_64",
@@ -26,7 +26,7 @@
         9,
         25
       ],
-      "executable": "/home/mmartin/.local/share/uv/python/cpython-3.9.25-linux-x86_64-gnu/bin/python3.9",
+      "executable": "/home/mmartin/.local/share/uv/python/cpython-3.9-linux-x86_64-gnu/bin/python3.9",
       "platform": "Linux",
       "platform_release": "6.12.0-124.56.5.el10_1.x86_64",
       "machine": "x86_64",
@@ -43,7 +43,7 @@
         10,
         20
       ],
-      "executable": "/home/mmartin/.local/share/uv/python/cpython-3.10.20-linux-x86_64-gnu/bin/python3.10",
+      "executable": "/home/mmartin/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/bin/python3.10",
       "platform": "Linux",
       "platform_release": "6.12.0-124.56.5.el10_1.x86_64",
       "machine": "x86_64",
@@ -60,7 +60,7 @@
         11,
         15
       ],
-      "executable": "/home/mmartin/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/bin/python3.11",
+      "executable": "/home/mmartin/.local/share/uv/python/cpython-3.11-linux-x86_64-gnu/bin/python3.11",
       "platform": "Linux",
       "platform_release": "6.12.0-124.56.5.el10_1.x86_64",
       "machine": "x86_64",
@@ -121,5 +121,6 @@
       "tk_version": "9.0.3",
       "error": null
     }
-  }
+  },
+  "source": "uv-managed"
 }
