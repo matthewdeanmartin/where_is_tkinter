@@ -3,6 +3,7 @@ save_as: fix-missing-tkinter/index.html
 url: fix-missing-tkinter/
 Date: 2026-05-24
 Slug: fix-missing-tkinter
+sortorder: 6
 Summary: Guides on how to install Tkinter on various operating systems.
 
 # Fixing Missing TkInter

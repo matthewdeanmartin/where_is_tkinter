@@ -29,6 +29,11 @@ SOCIAL = ()
 
 DEFAULT_PAGINATION = False
 
+def _sort_by_sortorder(pages):
+    return sorted(pages, key=lambda p: int(getattr(p, 'sortorder', 99)))
+
+JINJA_FILTERS = {'sort_by_sortorder': _sort_by_sortorder}
+
 # Use pages instead of articles for the main navigation
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = False

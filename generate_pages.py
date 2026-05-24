@@ -148,7 +148,14 @@ def format_version_table(results: dict) -> str:
         return "_No data collected yet for this platform._\n"
 
     rows = []
-    for version, info in sorted(results.items()):
+    def version_key(v: str) -> tuple:
+        try:
+            parts = v.lstrip("v").split(".")
+            return tuple(int(x) for x in parts)
+        except ValueError:
+            return (999,)
+
+    for version, info in sorted(results.items(), key=lambda kv: version_key(kv[0])):
         has = info.get("has_tkinter")
         if has is True:
             status = "✅ Yes"
@@ -218,12 +225,14 @@ See the [Fix Missing TkInter]({{filename}}fix.md) page for full instructions.
             "to `data/{os_key}.json`.\n"
         ).format(os_name=os_name, os_key=os_key)
 
+    sortorder = {"windows": 2, "macos": 3, "linux": 4}[os_key]
     content = f"""\
 Title: TkInter on {os_name}
 save_as: {os_key}/index.html
 url: {os_key}/
 Date: {TODAY}
 Slug: {os_key}
+sortorder: {sortorder}
 Summary: Which Python versions include tkinter on {os_name}?
 
 # TkInter Availability on {os_name}
@@ -238,9 +247,7 @@ Data collected: {generated_at}
     print(f"  Wrote {out}")
 
 
-def generate_matrix_page() -> None:
-    """A combined overview page showing all platforms side-by-side."""
-    sections = []
+def build_matrix_table() -> str:
     all_versions: set[str] = set()
     per_os: dict[str, dict] = {}
 
@@ -250,9 +257,14 @@ def generate_matrix_page() -> None:
         per_os[os_key] = results
         all_versions.update(results.keys())
 
-    versions_sorted = sorted(all_versions)
+    def version_key(v: str) -> tuple:
+        try:
+            return tuple(int(x) for x in v.lstrip("v").split("."))
+        except ValueError:
+            return (999,)
 
-    # Build matrix table
+    versions_sorted = sorted(all_versions, key=version_key)
+
     header_cells = " | ".join(f"**{OS_NAMES[k]}**" for k in OS_ORDER)
     header = f"| Version | {header_cells} |\n"
     sep_cells = " | ".join(":-----------:" for _ in OS_ORDER)
@@ -273,17 +285,23 @@ def generate_matrix_page() -> None:
                 cells.append("⚠️ Err")
         rows.append("| " + v + " | " + " | ".join(cells) + " |")
 
-    matrix_table = header + sep + "\n".join(rows) + "\n"
+    return header + sep + "\n".join(rows) + "\n"
+
+
+def generate_home_page() -> None:
+    """Front page: matrix + overview + about, all in one."""
+    matrix_table = build_matrix_table()
 
     content = f"""\
-Title: TkInter Availability Matrix
-save_as: matrix/index.html
-url: matrix/
+Title: Where is TkInter?
+save_as: index.html
+url:
 Date: {TODAY}
-Slug: matrix
-Summary: Cross-platform matrix of Python versions and tkinter availability.
+Slug: home
+sortorder: 1
+Summary: Which Python versions include tkinter on Windows, macOS, and Linux?
 
-# TkInter Availability Matrix
+## Availability Matrix
 
 Quick reference: which Python versions have tkinter on each platform.
 
@@ -291,13 +309,36 @@ Quick reference: which Python versions have tkinter on each platform.
 
 Legend: ✅ = tkinter present &nbsp; ❌ = missing &nbsp; ⚠️ = probe error &nbsp; — = not yet tested
 
-See the per-platform pages for full details:
+## Per-platform details
 
-- [Windows]({{filename}}windows.md)
-- [macOS]({{filename}}macos.md)
-- [Linux]({{filename}}linux.md)
+- [Windows]({{filename}}windows.md) — python.org installer, uv-managed Python
+- [macOS]({{filename}}macos.md) — python.org, Homebrew, uv
+- [Linux]({{filename}}linux.md) — system packages, uv, pyenv
+- [Docker images]({{filename}}docker.md) — bookworm, slim, alpine, windowsservercore
+
+## Fix it
+
+- [How to fix missing TkInter]({{filename}}fix.md) — step-by-step for every OS
+- [Configure your project]({{filename}}configure.md) — pyproject.toml settings for uv, Poetry, pip, conda
+
+## Quick diagnosis
+
+```python
+python -c "import tkinter; print(tkinter.TkVersion)"
+```
+
+If that raises `ModuleNotFoundError`, your Python was built or installed without Tcl/Tk support.
+Pick your platform above to find out why and what to do.
+
+## About
+
+**TkInter** is Python's standard GUI toolkit — but many Python distributions ship without it,
+and it silently breaks at import time with no obvious fix.
+
+"Where is TkInter?" tracks which Python versions, distributions, and Docker images include
+tkinter, and how to get it when it's missing.
 """
-    out = CONTENT_DIR / "matrix.md"
+    out = CONTENT_DIR / "home.md"
     out.write_text(content, encoding="utf-8")
     print(f"  Wrote {out}")
 
@@ -350,6 +391,7 @@ save_as: docker/index.html
 url: docker/
 Date: {TODAY}
 Slug: docker
+sortorder: 5
 Summary: Which official Docker Python images include tkinter, and how to add it when missing.
 
 # TkInter in Docker Python Images
@@ -434,6 +476,7 @@ save_as: configure/index.html
 url: configure/
 Date: {TODAY}
 Slug: configure
+sortorder: 7
 Summary: How to configure pyproject.toml and package managers to pick a Python with tkinter.
 
 # Configuring Your Project for TkInter
@@ -448,9 +491,9 @@ Summary: How to configure pyproject.toml and package managers to pick a Python w
 def main() -> None:
     CONTENT_DIR.mkdir(parents=True, exist_ok=True)
     print("Generating pages...")
+    generate_home_page()
     for os_key in OS_ORDER:
         generate_os_page(os_key)
-    generate_matrix_page()
     generate_docker_page()
     generate_pyproject_page()
     print("Done.")
