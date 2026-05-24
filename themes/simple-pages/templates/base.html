@@ -12,7 +12,9 @@
         <nav>
             <ul>
                 {% for p in pages %}
+                {% if p.url %}
                 <li{% if p == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a></li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </nav>
