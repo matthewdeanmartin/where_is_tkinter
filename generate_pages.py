@@ -16,6 +16,7 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).parent / "data"
 CONTENT_DIR = Path(__file__).parent / "content" / "pages"
+TODAY = datetime.now().strftime("%Y-%m-%d")
 
 OS_NAMES = {"windows": "Windows", "macos": "macOS", "linux": "Linux"}
 
@@ -206,7 +207,7 @@ def generate_os_page(os_key: str) -> None:
 
 **uv-managed Python:** {uv_rec}
 
-See the [Fix Missing TkInter](/fix-missing-tkinter/) page for full instructions.
+See the [Fix Missing TkInter]({filename}fix.md) page for full instructions.
 """
 
     no_data_note = ""
@@ -221,7 +222,7 @@ See the [Fix Missing TkInter](/fix-missing-tkinter/) page for full instructions.
 Title: TkInter on {os_name}
 save_as: {os_key}/index.html
 url: {os_key}/
-Date: 2026-05-24
+Date: {TODAY}
 Slug: {os_key}
 Summary: Which Python versions include tkinter on {os_name}?
 
@@ -278,7 +279,7 @@ def generate_matrix_page() -> None:
 Title: TkInter Availability Matrix
 save_as: matrix/index.html
 url: matrix/
-Date: 2026-05-24
+Date: {TODAY}
 Slug: matrix
 Summary: Cross-platform matrix of Python versions and tkinter availability.
 
@@ -292,9 +293,9 @@ Legend: ✅ = tkinter present &nbsp; ❌ = missing &nbsp; ⚠️ = probe error &
 
 See the per-platform pages for full details:
 
-- [Windows](/windows/)
-- [macOS](/macos/)
-- [Linux](/linux/)
+- [Windows]({filename}windows.md)
+- [macOS]({filename}macos.md)
+- [Linux]({filename}linux.md)
 """
     out = CONTENT_DIR / "matrix.md"
     out.write_text(content, encoding="utf-8")
@@ -347,7 +348,7 @@ def generate_docker_page() -> None:
 Title: TkInter in Docker Python Images
 save_as: docker/index.html
 url: docker/
-Date: 2026-05-24
+Date: {TODAY}
 Slug: docker
 Summary: Which official Docker Python images include tkinter, and how to add it when missing.
 
@@ -431,7 +432,7 @@ def generate_pyproject_page() -> None:
 Title: Configuring Your Project for TkInter
 save_as: configure/index.html
 url: configure/
-Date: 2026-05-24
+Date: {TODAY}
 Slug: configure
 Summary: How to configure pyproject.toml and package managers to pick a Python with tkinter.
 

@@ -10,16 +10,16 @@ This site tracks which Python versions, distributions, and Docker images include
 
 ## Browse by source
 
-- [Windows](/windows/) — python.org installer, uv-managed Python
-- [macOS](/macos/) — python.org, Homebrew, uv
-- [Linux](/linux/) — system packages, uv, pyenv
-- [Docker images](/docker/) — bookworm, slim, alpine, windowsservercore
-- [Cross-platform matrix](/matrix/) — all versions and platforms at a glance
+- [Windows]({filename}windows.md) — python.org installer, uv-managed Python
+- [macOS]({filename}macos.md) — python.org, Homebrew, uv
+- [Linux]({filename}linux.md) — system packages, uv, pyenv
+- [Docker images]({filename}docker.md) — bookworm, slim, alpine, windowsservercore
+- [Cross-platform matrix]({filename}matrix.md) — all versions and platforms at a glance
 
 ## Fix it
 
-- [How to fix missing TkInter](/fix-missing-tkinter/) — step-by-step for every OS
-- [Configure your project](/configure/) — pyproject.toml settings for uv, Poetry, pip, conda
+- [How to fix missing TkInter]({filename}fix.md) — step-by-step for every OS
+- [Configure your project]({filename}configure.md) — pyproject.toml settings for uv, Poetry, pip, conda
 
 ## Quick diagnosis
 
