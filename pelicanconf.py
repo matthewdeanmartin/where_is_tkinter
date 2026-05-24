@@ -1,6 +1,10 @@
+from datetime import datetime
+
 AUTHOR = 'Where is TkInter?'
 SITENAME = 'Where is TkInter?'
+SITESUBTITLE = 'Tkinter support, fixes, and version coverage in one place.'
 SITEURL = ''
+CURRENTYEAR = datetime.now().year
 
 PATH = 'content'
 

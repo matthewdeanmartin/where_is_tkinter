@@ -7,25 +7,45 @@
     <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/style.css" />
 </head>
 <body>
-    <header>
-        <h1><a href="{{ SITEURL }}/">{{ SITENAME }}</a></h1>
-        <nav>
-            <ul>
-                {% for p in pages %}
-                {% if p.url %}
-                <li{% if p == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a></li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-        </nav>
-    </header>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="site-header__inner">
+                <div class="site-branding">
+                    <a class="site-title" href="{{ SITEURL }}/">{{ SITENAME }}</a>
+                    <p class="site-tagline">{{ SITESUBTITLE | default("Track Tkinter support across Python versions, platforms, and images.") }}</p>
+                </div>
+            </div>
+        </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+        <div class="site-content">
+            <aside class="site-sidebar">
+                <nav class="site-nav" aria-label="Primary">
+                    <p class="site-nav__title">Navigate</p>
+                    <ul>
+                        <li{% if page is defined and (page.slug == "home" or not page.url) %} class="active"{% endif %}>
+                            <a href="{{ SITEURL }}/">Overview</a>
+                        </li>
+                        {% for p in pages %}
+                        {% if p.url %}
+                        <li{% if page is defined and p == page %} class="active"{% endif %}>
+                            <a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </aside>
 
-    <footer>
-        <p>&copy; {{ CURRENTYEAR }} {{ AUTHOR }}. Built with <a href="https://getpelican.com/">Pelican</a>.</p>
-    </footer>
+            <main class="site-main">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+
+        <footer class="site-footer">
+            <div class="site-footer__inner">
+                <p>&copy; {{ CURRENTYEAR }} {{ AUTHOR }}. Built with <a href="https://getpelican.com/">Pelican</a>.</p>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>

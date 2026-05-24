@@ -3,8 +3,8 @@
 {% block content %}
 <div class="index-content">
     {% if pages %}
-        <h2>Explore "Where is TkInter?"</h2>
-        <ul>
+        <h1>Explore "Where is TkInter?"</h1>
+        <ul class="link-list">
         {% for p in pages %}
             <li><a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a></li>
         {% endfor %}
