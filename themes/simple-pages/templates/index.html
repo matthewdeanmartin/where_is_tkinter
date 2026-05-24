@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="index-content">
+    {% if pages %}
+        <h2>Explore "Where is TkInter?"</h2>
+        <ul>
+        {% for p in pages %}
+            <li><a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Welcome to "Where is TkInter?". Content coming soon.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+[project]
+name = "where-is-tkinter"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "invoke>=3.0.3",
+    "markdown>=3.10.2",
+    "pelican>=4.12.0",
+]

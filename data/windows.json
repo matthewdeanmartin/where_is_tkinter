@@ -1,0 +1,125 @@
+{
+  "os": "windows",
+  "generated_at": "2026-05-24T17:19:10.116155+00:00",
+  "results": {
+    "3.8": {
+      "python_version": "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]",
+      "python_version_tuple": [
+        3,
+        8,
+        10
+      ],
+      "executable": "C:\\Users\\matth\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
+      "platform": "Windows",
+      "platform_release": "10",
+      "machine": "AMD64",
+      "has_tkinter": true,
+      "tkinter_version": 8.6,
+      "tcl_version": 8.6,
+      "tk_version": "8.6.9",
+      "error": null
+    },
+    "3.9": {
+      "python_version": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
+      "python_version_tuple": [
+        3,
+        9,
+        13
+      ],
+      "executable": "C:\\Users\\matth\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
+      "platform": "Windows",
+      "platform_release": "10",
+      "machine": "AMD64",
+      "has_tkinter": true,
+      "tkinter_version": 8.6,
+      "tcl_version": 8.6,
+      "tk_version": "8.6.12",
+      "error": null
+    },
+    "3.10": {
+      "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+      "python_version_tuple": [
+        3,
+        10,
+        11
+      ],
+      "executable": "C:\\Users\\matth\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+      "platform": "Windows",
+      "platform_release": "10",
+      "machine": "AMD64",
+      "has_tkinter": true,
+      "tkinter_version": 8.6,
+      "tcl_version": 8.6,
+      "tk_version": "8.6.12",
+      "error": null
+    },
+    "3.11": {
+      "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "python_version_tuple": [
+        3,
+        11,
+        9
+      ],
+      "executable": "C:\\Users\\matth\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "platform": "Windows",
+      "platform_release": "10",
+      "machine": "AMD64",
+      "has_tkinter": true,
+      "tkinter_version": 8.6,
+      "tcl_version": 8.6,
+      "tk_version": "8.6.12",
+      "error": null
+    },
+    "3.12": {
+      "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "python_version_tuple": [
+        3,
+        12,
+        10
+      ],
+      "executable": "C:\\Users\\matth\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "platform": "Windows",
+      "platform_release": "11",
+      "machine": "AMD64",
+      "has_tkinter": false,
+      "tkinter_version": null,
+      "tcl_version": null,
+      "tk_version": null,
+      "error": "No module named 'tkinter'"
+    },
+    "3.13": {
+      "python_version": "3.13.3 (main, May 30 2025, 05:37:00) [MSC v.1943 64 bit (AMD64)]",
+      "python_version_tuple": [
+        3,
+        13,
+        3
+      ],
+      "executable": "C:\\github\\where_is_tkinter\\.venv\\Scripts\\python.exe",
+      "platform": "Windows",
+      "platform_release": "11",
+      "machine": "AMD64",
+      "has_tkinter": true,
+      "tkinter_version": 8.6,
+      "tcl_version": 8.6,
+      "tk_version": "8.6.12",
+      "error": null
+    },
+    "3.14": {
+      "python_version": "3.14.4 (tags/v3.14.4:23116f9, Apr  7 2026, 14:10:54) [MSC v.1944 64 bit (AMD64)]",
+      "python_version_tuple": [
+        3,
+        14,
+        4
+      ],
+      "executable": "C:\\Users\\matth\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+      "platform": "Windows",
+      "platform_release": "11",
+      "machine": "AMD64",
+      "has_tkinter": true,
+      "tkinter_version": 8.6,
+      "tcl_version": 8.6,
+      "tk_version": "8.6.15",
+      "error": null
+    }
+  }
+}

@@ -1,0 +1,46 @@
+name: Gather TkInter Data
+
+# Manual trigger only — run this when you want to probe a new OS or
+# when new Python versions have been released.  Download the artifacts
+# and commit them to data/ yourself.
+on:
+  workflow_dispatch:
+
+jobs:
+  gather:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            os_key: linux
+          - os: macos-latest
+            os_key: macos
+          - os: windows-latest
+            os_key: windows
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Gather tkinter data for ${{ matrix.os_key }}
+        run: uv run python gather_data.py
+
+      - name: Upload data artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-${{ matrix.os_key }}
+          path: data/${{ matrix.os_key }}.json
+          retention-days: 30
+
+  # No commit-back job — download the artifacts from the Actions UI and
+  # commit data/*.json to the repo yourself.

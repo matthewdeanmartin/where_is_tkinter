@@ -1,0 +1,357 @@
+{
+  "source": "docker",
+  "generated_at": "2026-05-24T18:29:15.327604+00:00",
+  "results": {
+    "3.9": {},
+    "3.10": {
+      "alpine3.22": {
+        "version": "3.10",
+        "variant": "alpine3.22",
+        "image_tag": "python:3.10-alpine3.22",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.10/alpine3.22/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "alpine3.23": {
+        "version": "3.10",
+        "variant": "alpine3.23",
+        "image_tag": "python:3.10-alpine3.23",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.10/alpine3.23/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "bookworm": {
+        "version": "3.10",
+        "variant": "bookworm",
+        "image_tag": "python:3.10-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.10/bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      },
+      "slim-bookworm": {
+        "version": "3.10",
+        "variant": "slim-bookworm",
+        "image_tag": "python:3.10-slim-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.10/slim-bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "slim-trixie": {
+        "version": "3.10",
+        "variant": "slim-trixie",
+        "image_tag": "python:3.10-slim-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.10/slim-trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "trixie": {
+        "version": "3.10",
+        "variant": "trixie",
+        "image_tag": "python:3.10-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.10/trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      }
+    },
+    "3.11": {
+      "alpine3.22": {
+        "version": "3.11",
+        "variant": "alpine3.22",
+        "image_tag": "python:3.11-alpine3.22",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.11/alpine3.22/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "alpine3.23": {
+        "version": "3.11",
+        "variant": "alpine3.23",
+        "image_tag": "python:3.11-alpine3.23",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.11/alpine3.23/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "bookworm": {
+        "version": "3.11",
+        "variant": "bookworm",
+        "image_tag": "python:3.11-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.11/bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      },
+      "slim-bookworm": {
+        "version": "3.11",
+        "variant": "slim-bookworm",
+        "image_tag": "python:3.11-slim-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.11/slim-bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "slim-trixie": {
+        "version": "3.11",
+        "variant": "slim-trixie",
+        "image_tag": "python:3.11-slim-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.11/slim-trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "trixie": {
+        "version": "3.11",
+        "variant": "trixie",
+        "image_tag": "python:3.11-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.11/trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      }
+    },
+    "3.12": {
+      "alpine3.22": {
+        "version": "3.12",
+        "variant": "alpine3.22",
+        "image_tag": "python:3.12-alpine3.22",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.12/alpine3.22/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "alpine3.23": {
+        "version": "3.12",
+        "variant": "alpine3.23",
+        "image_tag": "python:3.12-alpine3.23",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.12/alpine3.23/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "bookworm": {
+        "version": "3.12",
+        "variant": "bookworm",
+        "image_tag": "python:3.12-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.12/bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      },
+      "slim-bookworm": {
+        "version": "3.12",
+        "variant": "slim-bookworm",
+        "image_tag": "python:3.12-slim-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.12/slim-bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "slim-trixie": {
+        "version": "3.12",
+        "variant": "slim-trixie",
+        "image_tag": "python:3.12-slim-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.12/slim-trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "trixie": {
+        "version": "3.12",
+        "variant": "trixie",
+        "image_tag": "python:3.12-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.12/trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      }
+    },
+    "3.13": {
+      "alpine3.22": {
+        "version": "3.13",
+        "variant": "alpine3.22",
+        "image_tag": "python:3.13-alpine3.22",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.13/alpine3.22/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "alpine3.23": {
+        "version": "3.13",
+        "variant": "alpine3.23",
+        "image_tag": "python:3.13-alpine3.23",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.13/alpine3.23/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "bookworm": {
+        "version": "3.13",
+        "variant": "bookworm",
+        "image_tag": "python:3.13-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.13/bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      },
+      "slim-bookworm": {
+        "version": "3.13",
+        "variant": "slim-bookworm",
+        "image_tag": "python:3.13-slim-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.13/slim-bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "slim-trixie": {
+        "version": "3.13",
+        "variant": "slim-trixie",
+        "image_tag": "python:3.13-slim-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.13/slim-trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "trixie": {
+        "version": "3.13",
+        "variant": "trixie",
+        "image_tag": "python:3.13-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.13/trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      },
+      "windows-windowsservercore-ltsc2022": {
+        "version": "3.13",
+        "variant": "windows-windowsservercore-ltsc2022",
+        "image_tag": "python:3.13-windows-windowsservercore-ltsc2022",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.13/windows/windowsservercore-ltsc2022/Dockerfile",
+        "os_family": "windows",
+        "has_tkinter": false,
+        "confidence": "medium",
+        "reasoning": "No Tcl/Tk flags found in Windows Dockerfile; tkinter likely absent"
+      },
+      "windows-windowsservercore-ltsc2025": {
+        "version": "3.13",
+        "variant": "windows-windowsservercore-ltsc2025",
+        "image_tag": "python:3.13-windows-windowsservercore-ltsc2025",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.13/windows/windowsservercore-ltsc2025/Dockerfile",
+        "os_family": "windows",
+        "has_tkinter": false,
+        "confidence": "medium",
+        "reasoning": "No Tcl/Tk flags found in Windows Dockerfile; tkinter likely absent"
+      }
+    },
+    "3.14": {
+      "alpine3.22": {
+        "version": "3.14",
+        "variant": "alpine3.22",
+        "image_tag": "python:3.14-alpine3.22",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.14/alpine3.22/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "alpine3.23": {
+        "version": "3.14",
+        "variant": "alpine3.23",
+        "image_tag": "python:3.14-alpine3.23",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.14/alpine3.23/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": false,
+        "confidence": "high",
+        "reasoning": "Alpine images do not install py3-tk; tkinter unavailable"
+      },
+      "bookworm": {
+        "version": "3.14",
+        "variant": "bookworm",
+        "image_tag": "python:3.14-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.14/bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      },
+      "slim-bookworm": {
+        "version": "3.14",
+        "variant": "slim-bookworm",
+        "image_tag": "python:3.14-slim-bookworm",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.14/slim-bookworm/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "slim-trixie": {
+        "version": "3.14",
+        "variant": "slim-trixie",
+        "image_tag": "python:3.14-slim-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.14/slim-trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev present at compile time; _tkinter.so retained in slim image"
+      },
+      "trixie": {
+        "version": "3.14",
+        "variant": "trixie",
+        "image_tag": "python:3.14-trixie",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.14/trixie/Dockerfile",
+        "os_family": "linux",
+        "has_tkinter": true,
+        "confidence": "high",
+        "reasoning": "tk-dev installed at compile time; tkinter built in"
+      },
+      "windows-windowsservercore-ltsc2022": {
+        "version": "3.14",
+        "variant": "windows-windowsservercore-ltsc2022",
+        "image_tag": "python:3.14-windows-windowsservercore-ltsc2022",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.14/windows/windowsservercore-ltsc2022/Dockerfile",
+        "os_family": "windows",
+        "has_tkinter": false,
+        "confidence": "medium",
+        "reasoning": "No Tcl/Tk flags found in Windows Dockerfile; tkinter likely absent"
+      },
+      "windows-windowsservercore-ltsc2025": {
+        "version": "3.14",
+        "variant": "windows-windowsservercore-ltsc2025",
+        "image_tag": "python:3.14-windows-windowsservercore-ltsc2025",
+        "dockerfile_url": "https://raw.githubusercontent.com/docker-library/python/master/3.14/windows/windowsservercore-ltsc2025/Dockerfile",
+        "os_family": "windows",
+        "has_tkinter": false,
+        "confidence": "medium",
+        "reasoning": "No Tcl/Tk flags found in Windows Dockerfile; tkinter likely absent"
+      }
+    }
+  }
+}

@@ -216,3 +216,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Pelican build output — never commit this
+output/
+
+# Auto-generated Pelican content pages (built from data/ by generate_pages.py)
+content/pages/windows.md
+content/pages/macos.md
+content/pages/linux.md
+content/pages/matrix.md
+content/pages/configure.md
+content/pages/docker.md
+.idea
