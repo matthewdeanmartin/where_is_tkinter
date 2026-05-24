@@ -2,6 +2,16 @@ name: Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/**'
+      - 'data/**'
+      - 'themes/**'
+      - 'generate_pages.py'
+      - 'pelicanconf.py'
+      - 'publishconf.py'
 
 jobs:
   build:
@@ -30,7 +40,7 @@ jobs:
         run: uv run python generate_pages.py
 
       - name: Build Pelican site
-        run: uv run pelican content -o output -s publishconf.py
+        run: uv run make html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
