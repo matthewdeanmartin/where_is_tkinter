@@ -22,10 +22,13 @@ help:
 	@echo 'Makefile for the "Where is TkInter?" site'
 	@echo ''
 	@echo 'Data collection (run on each target OS, then commit data/ to git):'
-	@echo '   make gather            probe all Python versions on this OS'
+	@echo '   make gather            probe all Python versions via uv (python-build-standalone)'
 	@echo '   make gather-force      re-probe even versions already in data/'
 	@echo '   make gather-dry-run    show what would be probed without running'
 	@echo '   make gather-docker     fetch Docker image data from Dockerfiles on GitHub'
+	@echo '   make gather-pyenv      probe pyenv-managed Python versions on this OS'
+	@echo '   make gather-pyenv-force      re-probe even pyenv versions already in data/'
+	@echo '   make gather-pyenv-dry-run    show what pyenv versions would be probed'
 	@echo ''
 	@echo 'Page generation (run after data/ is up-to-date):'
 	@echo '   make generate-pages    generate Pelican .md pages from data/ JSON'
@@ -60,6 +63,15 @@ gather-dry-run:
 
 gather-docker:
 	uv run python gather_docker.py
+
+gather-pyenv:
+	uv run python gather_pyenv.py
+
+gather-pyenv-force:
+	uv run python gather_pyenv.py --force
+
+gather-pyenv-dry-run:
+	uv run python gather_pyenv.py --dry-run
 
 # ── Page generation ────────────────────────────────────────────────────────────
 
@@ -107,5 +119,7 @@ gha-upgrade: gha-pin gha-validate
 	@echo 'GitHub Actions upgrade complete'
 
 
-.PHONY: help gather gather-force gather-dry-run gather-docker generate-pages build \
+.PHONY: help gather gather-force gather-dry-run gather-docker \
+        gather-pyenv gather-pyenv-force gather-pyenv-dry-run \
+        generate-pages build \
         html clean regenerate serve devserver publish gha-validate gha-pin gha-upgrade

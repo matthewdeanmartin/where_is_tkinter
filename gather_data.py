@@ -57,12 +57,13 @@ def load_existing(path: Path) -> dict:
     if path.exists():
         with open(path, encoding="utf-8") as f:
             return json.load(f)
-    return {"os": os_key(), "generated_at": None, "results": {}}
+    return {"os": os_key(), "source": "uv-managed", "generated_at": None, "results": {}}
 
 
 def save(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     data["generated_at"] = datetime.now(timezone.utc).isoformat()
+    data.setdefault("source", "uv-managed")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
     print(f"Saved {path}")
@@ -77,6 +78,7 @@ def probe_version(version: str, dry_run: bool = False) -> dict | None:
         "uv",
         "run",
         f"--python={version}",
+        "--python-preference", "managed",
         "--no-project",
         "python",
         probe_path,

@@ -1,8 +1,8 @@
 """
 Generate Pelican content pages from the tkinter probe data files in data/.
 
-Run after gather_data.py has been executed on all target platforms and the
-resulting JSON files have been committed to the repo.
+Run after gather_data.py (and optionally gather_pyenv.py) has been executed on
+all target platforms and the resulting JSON files have been committed to the repo.
 
 Usage:
     uv run python generate_pages.py
@@ -19,10 +19,83 @@ CONTENT_DIR = Path(__file__).parent / "content" / "pages"
 TODAY = datetime.now().strftime("%Y-%m-%d")
 
 OS_NAMES = {"windows": "Windows", "macos": "macOS", "linux": "Linux"}
-
 OS_ORDER = ["windows", "macos", "linux"]
 
-# Version-specific recommendations when tkinter is missing
+# Ordered list of channels to look for, per OS.
+# Each entry: (source_key, data filename suffix, display label, short label)
+CHANNELS: list[tuple[str, str, str, str]] = [
+    (
+        "uv-managed",
+        "",  # data/<os>.json
+        "uv / python-build-standalone",
+        "uv / python-build-standalone",
+    ),
+    (
+        "pyenv",
+        "_pyenv",  # data/<os>_pyenv.json
+        "pyenv",
+        "pyenv",
+    ),
+]
+
+SOURCE_LINKS = {
+    "uv-managed": "https://github.com/astral-sh/python-build-standalone",
+    "pyenv": "https://github.com/pyenv/pyenv",
+    "pyenv-win": "https://github.com/pyenv-win/pyenv-win",
+    "python.org": "https://www.python.org/downloads/",
+}
+
+SOURCE_DISPLAY_NAMES = {
+    "uv-managed": "uv / python-build-standalone",
+    "pyenv": "pyenv",
+    "pyenv-win": "pyenv-win",
+    "python.org": "python.org installer",
+}
+
+SOURCE_NOTES = {
+    "uv-managed": (
+        "These results reflect what you get when uv (or rye / Hatch, which use "
+        "the same builds) installs Python automatically via `uv python install`. "
+        "Results may differ from python.org installers, pyenv, or system packages."
+    ),
+    "pyenv": (
+        "These results reflect pyenv-managed Pythons. pyenv compiles CPython from "
+        "source — tkinter is present only if the Tcl/Tk development headers "
+        "(`tk-dev` / `tk-devel`) were installed *before* `pyenv install`."
+    ),
+    "pyenv-win": (
+        "These results reflect [pyenv-win](https://github.com/pyenv-win/pyenv-win)-managed "
+        "Pythons. pyenv does not officially support Windows; pyenv-win is a separate "
+        "fork by @kirankotari that installs native Windows CPython binaries "
+        "(the same pre-built packages as python.org, so tkinter behaviour matches "
+        "a fresh python.org install with the default options)."
+    ),
+}
+
+CHANNELS_EXPLAINER = """\
+## Python Distribution Channels
+
+The same version number (e.g. 3.12) can have or lack tkinter depending on
+*where* the Python came from:
+
+| Channel | How it installs Python | tkinter included? |
+|---------|------------------------|:-----------------:|
+| **python.org installer** | Download from python.org; Windows/macOS bundle Tcl/Tk | ✅ Windows & macOS / ❌ Linux |
+| **uv / python-build-standalone** | `uv python install` downloads Astral's pre-built CPython | Varies by version — see tables below |
+| **pyenv** (Linux/macOS) | Compiles CPython from source | ❌ unless `tk-dev` present at build time |
+| **pyenv-win** (Windows only) | Installs native Windows CPython binaries; separate fork of pyenv by @kirankotari | Matches python.org defaults |
+| **rye** | Uses the same python-build-standalone as uv | Same as uv |
+| **Hatch** | Uses python-build-standalone | Same as uv |
+| **conda / mamba** | Downloads conda-forge or defaults channel builds | ✅ (tk package included) |
+| **Microsoft Store** | Windows Store Python | ❌ No tkinter |
+| **Linux system package** | `apt install python3`, `dnf install python3` | ❌ unless `python3-tk` also installed |
+| **Docker official image** | See [Docker page]({filename}docker.md) | Varies by image variant |
+
+**The data on this site covers uv / python-build-standalone and pyenv / pyenv-win.**
+Per-platform pages show a separate table for each channel so you can compare directly.
+"""
+
+# Version-specific fix recommendations
 MISSING_RECOMMENDATIONS: dict[str, dict[str, str]] = {
     "windows": {
         "default": (
@@ -135,27 +208,37 @@ conda install tk
 """
 
 
-def load_data(os_key: str) -> dict:
-    path = DATA_DIR / f"{os_key}.json"
+def load_channel_data(os_key: str, suffix: str) -> dict:
+    path = DATA_DIR / f"{os_key}{suffix}.json"
     if not path.exists():
         return {}
     with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
+def fmt_generated_at(raw: str | None) -> str:
+    if not raw:
+        return "unknown"
+    try:
+        dt = datetime.fromisoformat(raw)
+        return dt.strftime("%Y-%m-%d %H:%M UTC")
+    except ValueError:
+        return raw
+
+
+def version_sort_key(v: str) -> tuple:
+    try:
+        return tuple(int(x) for x in v.lstrip("v").split("."))
+    except ValueError:
+        return (999,)
+
+
 def format_version_table(results: dict) -> str:
     if not results:
-        return "_No data collected yet for this platform._\n"
+        return "_No data collected yet._\n"
 
     rows = []
-    def version_key(v: str) -> tuple:
-        try:
-            parts = v.lstrip("v").split(".")
-            return tuple(int(x) for x in parts)
-        except ValueError:
-            return (999,)
-
-    for version, info in sorted(results.items(), key=lambda kv: version_key(kv[0])):
+    for version, info in sorted(results.items(), key=lambda kv: version_sort_key(kv[0])):
         has = info.get("has_tkinter")
         if has is True:
             status = "✅ Yes"
@@ -164,7 +247,6 @@ def format_version_table(results: dict) -> str:
         elif has is False:
             status = "❌ No"
             detail = info.get("error") or ""
-            # Truncate long error messages
             if len(detail) > 80:
                 detail = detail[:77] + "..."
         else:
@@ -183,30 +265,66 @@ def format_version_table(results: dict) -> str:
     return header + "\n".join(rows) + "\n"
 
 
-def generate_os_page(os_key: str) -> None:
-    data = load_data(os_key)
-    os_name = OS_NAMES[os_key]
+def render_channel_section(
+    source_key: str,
+    display_label: str,
+    data: dict,
+) -> str:
+    """Render a h3 section for one channel on an OS page."""
+    # Use the actual source recorded in the file (e.g. pyenv-win) rather than
+    # the generic channel key, so the label and note are always accurate.
+    actual_source = data.get("source", source_key)
     results = data.get("results", {})
-    generated_at = data.get("generated_at") or "unknown"
-    if generated_at != "unknown":
-        try:
-            dt = datetime.fromisoformat(generated_at)
-            generated_at = dt.strftime("%Y-%m-%d %H:%M UTC")
-        except ValueError:
-            pass
+    generated_at = fmt_generated_at(data.get("generated_at"))
+    link = SOURCE_LINKS.get(actual_source, SOURCE_LINKS.get(source_key, ""))
+    note = SOURCE_NOTES.get(actual_source, SOURCE_NOTES.get(source_key, ""))
+    name = SOURCE_DISPLAY_NAMES.get(actual_source, display_label)
+    linked_label = f"[{name}]({link})" if link else name
+
+    table = format_version_table(results)
+
+    no_data = ""
+    if not results:
+        no_data = "\n> No data collected yet for this channel.\n"
+
+    return f"""\
+### {linked_label}
+
+> {note}
+
+Data collected: {generated_at}
+{no_data}
+{table}"""
+
+
+def generate_os_page(os_key: str) -> None:
+    os_name = OS_NAMES[os_key]
+    sortorder = {"windows": 2, "macos": 3, "linux": 4}[os_key]
+
+    channel_sections = []
+    any_missing = False
+
+    for source_key, suffix, display_label, _ in CHANNELS:
+        data = load_channel_data(os_key, suffix)
+        if not data:
+            continue
+        results = data.get("results", {})
+        if any(info.get("has_tkinter") is False for info in results.values()):
+            any_missing = True
+        channel_sections.append(
+            render_channel_section(source_key, display_label, data)
+        )
+
+    channels_body = "\n\n".join(channel_sections) if channel_sections else (
+        "_No data collected yet for this platform._\n"
+    )
 
     recs = MISSING_RECOMMENDATIONS.get(os_key, {})
     default_rec = recs.get("default", "See the fix page for instructions.")
     uv_rec = recs.get("uv", "")
 
-    table = format_version_table(results)
-
-    has_missing = any(
-        info.get("has_tkinter") is False for info in results.values()
-    )
-
     fix_section = ""
-    if has_missing:
+    if any_missing:
         fix_section = f"""
 ## When tkinter Is Missing
 
@@ -217,15 +335,6 @@ def generate_os_page(os_key: str) -> None:
 See the [Fix Missing TkInter]({{filename}}fix.md) page for full instructions.
 """
 
-    no_data_note = ""
-    if not results:
-        no_data_note = (
-            "\n> **Note:** Data has not yet been gathered for this platform. "
-            "Run `gather_data.py` on a {os_name} machine and commit the result "
-            "to `data/{os_key}.json`.\n"
-        ).format(os_name=os_name, os_key=os_key)
-
-    sortorder = {"windows": 2, "macos": 3, "linux": 4}[os_key]
     content = f"""\
 Title: TkInter on {os_name}
 save_as: {os_key}/index.html
@@ -236,39 +345,39 @@ sortorder: {sortorder}
 Summary: Which Python versions include tkinter on {os_name}?
 
 # TkInter Availability on {os_name}
-{no_data_note}
-Data collected: {generated_at}
 
-{table}
-{fix_section}
-"""
+Results are shown separately for each Python distribution channel —
+the same version number can behave differently depending on where Python came from.
+See the [channels overview]({{filename}}home.md#python-distribution-channels) for background.
+
+## By Channel
+
+{channels_body}
+{fix_section}"""
+
     out = CONTENT_DIR / f"{os_key}.md"
     out.write_text(content, encoding="utf-8")
     print(f"  Wrote {out}")
 
 
 def build_matrix_table() -> str:
+    """Matrix table using only the primary (uv-managed) channel."""
     all_versions: set[str] = set()
     per_os: dict[str, dict] = {}
 
     for os_key in OS_ORDER:
-        data = load_data(os_key)
+        data = load_channel_data(os_key, "")
         results = data.get("results", {})
         per_os[os_key] = results
         all_versions.update(results.keys())
 
-    def version_key(v: str) -> tuple:
-        try:
-            return tuple(int(x) for x in v.lstrip("v").split("."))
-        except ValueError:
-            return (999,)
-
-    versions_sorted = sorted(all_versions, key=version_key)
+    versions_sorted = sorted(all_versions, key=version_sort_key)
 
     header_cells = " | ".join(f"**{OS_NAMES[k]}**" for k in OS_ORDER)
     header = f"| Version | {header_cells} |\n"
     sep_cells = " | ".join(":-----------:" for _ in OS_ORDER)
     sep = f"|---------|{sep_cells}|\n"
+
     rows = []
     for v in versions_sorted:
         cells = []
@@ -289,7 +398,6 @@ def build_matrix_table() -> str:
 
 
 def generate_home_page() -> None:
-    """Front page: matrix + overview + about, all in one."""
     matrix_table = build_matrix_table()
 
     content = f"""\
@@ -303,7 +411,9 @@ Summary: Which Python versions include tkinter on Windows, macOS, and Linux?
 
 ## Availability Matrix
 
-Quick reference: which Python versions have tkinter on each platform.
+Quick reference for **uv / python-build-standalone** (the Python that uv, rye, and Hatch
+download automatically). Results for python.org installers, pyenv, or system packages
+will differ — per-platform pages show a separate table for each channel.
 
 {matrix_table}
 
@@ -311,9 +421,9 @@ Legend: ✅ = tkinter present &nbsp; ❌ = missing &nbsp; ⚠️ = probe error &
 
 ## Per-platform details
 
-- [Windows]({{filename}}windows.md) — python.org installer, uv-managed Python
-- [macOS]({{filename}}macos.md) — python.org, Homebrew, uv
-- [Linux]({{filename}}linux.md) — system packages, uv, pyenv
+- [Windows]({{filename}}windows.md) — uv / python-build-standalone, pyenv
+- [macOS]({{filename}}macos.md) — uv / python-build-standalone, pyenv
+- [Linux]({{filename}}linux.md) — uv / python-build-standalone, pyenv
 - [Docker images]({{filename}}docker.md) — bookworm, slim, alpine, windowsservercore
 
 ## Fix it
@@ -329,6 +439,8 @@ python -c "import tkinter; print(tkinter.TkVersion)"
 
 If that raises `ModuleNotFoundError`, your Python was built or installed without Tcl/Tk support.
 Pick your platform above to find out why and what to do.
+
+{CHANNELS_EXPLAINER}
 
 ## About
 
@@ -352,13 +464,7 @@ def generate_docker_page() -> None:
             data = json.load(f)
 
     results = data.get("results", {})
-    generated_at = data.get("generated_at") or "unknown"
-    if generated_at != "unknown":
-        try:
-            dt = datetime.fromisoformat(generated_at)
-            generated_at = dt.strftime("%Y-%m-%d %H:%M UTC")
-        except ValueError:
-            pass
+    generated_at = fmt_generated_at(data.get("generated_at"))
 
     if not results:
         table = "_No data collected yet._\n"

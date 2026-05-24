@@ -188,6 +188,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pyenv-win"
+version = "3.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/23/35/18680cc47b93ef8f02b04e63e1be969b60d2c193a7089d5d51d09d4cd920/pyenv-win-3.1.1.tar.gz", hash = "sha256:c5af094d574acad7a083359c822a185cc1e4c72fef7548fdd4ec82470480d8f8", size = 3540721, upload-time = "2022-07-20T14:29:15.845Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fe/bf/ad7bcca35c7b5465c922c9b1e9540a76c7524c68625983a33e25c3a712a4/pyenv_win-3.1.1-py3-none-any.whl", hash = "sha256:e96563bd541f0b242693aa7dc4107a6047ee90c37b814e5ad210b2a0aeacaaeb", size = 3558354, upload-time = "2022-07-20T14:29:13.006Z" },
+]
+
+[[package]]
 name = "pygments"
 version = "2.19.2"
 source = { registry = "https://pypi.org/simple" }
@@ -330,9 +339,17 @@ dependencies = [
     { name = "pelican" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pyenv-win" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "invoke", specifier = ">=3.0.3" },
     { name = "markdown", specifier = ">=3.10.2" },
     { name = "pelican", specifier = ">=4.12.0" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pyenv-win", specifier = ">=3.1.1" }]
