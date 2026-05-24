@@ -207,7 +207,7 @@ def generate_os_page(os_key: str) -> None:
 
 **uv-managed Python:** {uv_rec}
 
-See the [Fix Missing TkInter]({filename}fix.md) page for full instructions.
+See the [Fix Missing TkInter]({{filename}}fix.md) page for full instructions.
 """
 
     no_data_note = ""
@@ -293,9 +293,9 @@ Legend: ✅ = tkinter present &nbsp; ❌ = missing &nbsp; ⚠️ = probe error &
 
 See the per-platform pages for full details:
 
-- [Windows]({filename}windows.md)
-- [macOS]({filename}macos.md)
-- [Linux]({filename}linux.md)
+- [Windows]({{filename}}windows.md)
+- [macOS]({{filename}}macos.md)
+- [Linux]({{filename}}linux.md)
 """
     out = CONTENT_DIR / "matrix.md"
     out.write_text(content, encoding="utf-8")
