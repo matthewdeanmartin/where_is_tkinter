@@ -4,7 +4,7 @@ sys.path.append(os.curdir)
 from pelicanconf import *
 
 # If your site is available via HTTPS, make sure SITEURL begins with https://
-SITEURL = 'https://your-username.github.io/where_is_tkinter'
+SITEURL = 'https://matthewdeanmartin.github.io/where_is_tkinter'
 RELATIVE_URLS = False
 
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
