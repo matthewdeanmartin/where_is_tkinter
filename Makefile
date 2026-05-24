@@ -1,4 +1,6 @@
+UV ?= uv
 PELICANOPTS=
+GHA_WORKFLOWS := .github/workflows
 
 BASEDIR=$(CURDIR)
 INPUTDIR=$(BASEDIR)/content
@@ -36,6 +38,11 @@ help:
 	@echo '   make serve [PORT=8000] serve site at http://localhost:8000'
 	@echo '   make devserver         serve and auto-regenerate on change'
 	@echo '   make publish           generate using production settings'
+	@echo ''
+	@echo 'GitHub Actions maintenance:'
+	@echo '   make gha-validate      parse workflows and run zizmor'
+	@echo '   make gha-pin           pin GitHub Actions refs to commit SHAs'
+	@echo '   make gha-upgrade       pin and validate GitHub Actions workflows'
 	@echo ''
 	@echo 'Set DEBUG=1 to enable Pelican debug output.'
 	@echo ''
@@ -83,6 +90,22 @@ devserver:
 publish:
 	uv run pelican "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(PUBLISHCONF)" $(PELICANOPTS)
 
+# ── GitHub Actions maintenance ───────────────────────────────────────────────
+
+gha-validate:
+	@echo 'Validating GitHub Actions workflows'
+	@$(UV) run --with pyyaml python -c "from pathlib import Path; import yaml; workflows=sorted(Path('$(GHA_WORKFLOWS)').glob('*.yml')); [yaml.safe_load(path.read_text(encoding='utf-8')) for path in workflows]; print(f'YAML parse OK: {len(workflows)} workflow(s)')"
+	@$(UV) run --with pyyaml python -c "from pathlib import Path; import yaml; data=yaml.safe_load(Path('$(GHA_WORKFLOWS)/deploy.yml').read_text(encoding='utf-8')); build_steps=data['jobs']['build']['steps']; deploy_steps=data['jobs']['deploy']['steps']; upload=next(step for step in build_steps if step.get('uses', '').startswith('actions/upload-pages-artifact@')); deploy=next(step for step in deploy_steps if step.get('uses', '').startswith('actions/deploy-pages@')); assert upload['with']['path'] == './output'; assert deploy['id'] == 'deployment'; print('Pages deploy workflow OK:', upload['uses'], '->', deploy['uses'])"
+	@$(UV) run --with pyyaml python -c "from pathlib import Path; import yaml; data=yaml.safe_load(Path('$(GHA_WORKFLOWS)/gather.yml').read_text(encoding='utf-8')); steps=data['jobs']['gather']['steps']; upload=next(step for step in steps if step.get('uses', '').startswith('actions/upload-artifact@')); assert upload['with']['name'] == 'data-$${{ matrix.os_key }}'; assert upload['with']['path'] == 'data/$${{ matrix.os_key }}.json'; print('Gather workflow OK:', upload['uses'])"
+	@uvx zizmor --no-progress $(GHA_WORKFLOWS)
+
+gha-pin:
+	@echo 'Pinning GitHub Actions to current commit SHAs'
+	@$(UV) run python -c "import os, subprocess; token=os.environ.get('GITHUB_TOKEN') or subprocess.run(['gh', 'auth', 'token'], capture_output=True, text=True).stdout.strip(); assert token, 'Set GITHUB_TOKEN or run: gh auth login'; env=dict(os.environ, GITHUB_TOKEN=token); raise SystemExit(subprocess.run(['uvx', 'gha-update'], env=env).returncode)"
+
+gha-upgrade: gha-pin gha-validate
+	@echo 'GitHub Actions upgrade complete'
+
 
 .PHONY: help gather gather-force gather-dry-run gather-docker generate-pages build \
-        html clean regenerate serve devserver publish
+        html clean regenerate serve devserver publish gha-validate gha-pin gha-upgrade
