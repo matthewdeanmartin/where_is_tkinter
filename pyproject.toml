@@ -16,4 +16,6 @@ dev = [
 ]
 
 [tool.uv]
+
+[tool.uv.pip]
 universal = true
