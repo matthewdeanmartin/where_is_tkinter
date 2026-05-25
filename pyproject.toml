@@ -14,3 +14,6 @@ dependencies = [
 dev = [
     "pyenv-win>=3.1.1",
 ]
+
+[tool.uv]
+universal = true
